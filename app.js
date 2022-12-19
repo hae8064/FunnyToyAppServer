@@ -4,7 +4,33 @@ const app = express();
 const cors = require('cors');
 const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
+const { sequelize } = require('./models');
+const { User } = require('./models');
 
+//force: false는 모델을 수정해도 db반영 x
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log('DB Connected Success');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+// User.create({
+//   nameuser: '선경',
+//   emailuser: 'sunny@naver.com',
+//   passworduser: 'qedsa212',
+// })
+//   .then((result) => {
+//     console.log('저장 성공:', result);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+User.destroy({ where: { nameuser: '봉희' } });
+// User.findAll().then(console.log);
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '/variousproj/build')));
