@@ -6,6 +6,12 @@ const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const { sequelize } = require('./models');
 const { User } = require('./models');
+const bcrypt = require('bcrypt');
+// const crypto = require('crypto');
+
+const salt = 12;
+//회원가입 데이터
+let userDatas = [];
 
 //force: false는 모델을 수정해도 db반영 x
 sequelize
@@ -17,20 +23,6 @@ sequelize
     console.error(err);
   });
 
-// User.create({
-//   nameuser: '선경',
-//   emailuser: 'sunny@naver.com',
-//   passworduser: 'qedsa212',
-// })
-//   .then((result) => {
-//     console.log('저장 성공:', result);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
-User.destroy({ where: { nameuser: '봉희' } });
-// User.findAll().then(console.log);
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '/variousproj/build')));
@@ -42,9 +34,27 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/variousproj/build/index.html'));
 });
 
-app.post('/signUp', (req, res) => {
-  let datas = req.body.signUpDatas;
-  console.log(datas);
+app.post('/signUp', async (req, res) => {
+  userDatas = req.body.signUpDatas;
+  const hashPassword = await bcrypt.hash(userDatas[2], salt);
+
+  // let hashPassword = crypto
+  //   .createHash('sha512')
+  //   .update(userDatas[2] + salt)
+  //   .digest('hex');
+
+  User.create({
+    nameuser: userDatas[0],
+    emailuser: userDatas[1],
+    passworduser: hashPassword,
+  })
+    .then((result) => {
+      console.log('저장 성공:', result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  console.log(userDatas);
 });
 
 //라우팅은 리액트가 담당하도록 설계한다.
