@@ -35,6 +35,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/signUp', async (req, res) => {
+  let sendData = '';
+
   userDatas = req.body.signUpDatas;
   const hashPassword = await bcrypt.hash(userDatas[2], salt);
 
@@ -50,9 +52,13 @@ app.post('/signUp', async (req, res) => {
   })
     .then((result) => {
       console.log('저장 성공:', result);
+      sendData = 'success';
+      res.send(sendData);
     })
     .catch((err) => {
       console.log(err);
+      sendData = 'fail';
+      res.send(sendData);
     });
   console.log(userDatas);
 });
