@@ -44,19 +44,25 @@ app.post('/', async (req, res) => {
     where: { emailuser: clientLogin[0] },
   });
 
-  const match = await bcrypt.compare(
-    clientLogin[1],
-    userDataCheck.passworduser
-  );
-
-  if (match === true) {
-    sendData = 'success';
-    res.send(sendData);
-  } else if (match === false) {
+  if (userDataCheck === null) {
     sendData = 'fail';
     res.send(sendData);
+  } else {
+    const match = await bcrypt.compare(
+      clientLogin[1],
+      userDataCheck.passworduser
+    );
+
+    if (match === true) {
+      sendData = 'success';
+      res.send(sendData);
+    } else if (match === false) {
+      sendData = 'fail';
+      res.send(sendData);
+    }
   }
-  //이메일이  없으면 null값으로 나온다.
+
+  // 이메일이  없으면 null값으로 나온다.
   // console.log('조회된 데이터는 ?', userDataCheck);
 });
 
@@ -86,7 +92,6 @@ app.post('/signUp', async (req, res) => {
       sendData = 'fail';
       res.send(sendData);
     });
-  console.log(userDatas);
 });
 
 //라우팅은 리액트가 담당하도록 설계한다.
