@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res) => {
   let sendData = '';
   const clientLogin = req.body.loginDatas;
-  console.log(clientLogin);
+  // console.log(clientLogin);
 
   const userDataCheck = await User.findOne({
     where: { emailuser: clientLogin[0] },
@@ -61,7 +61,6 @@ app.post('/', async (req, res) => {
       res.send(sendData);
     }
   }
-
   // 이메일이  없으면 null값으로 나온다.
   // console.log('조회된 데이터는 ?', userDataCheck);
 });
