@@ -9,6 +9,7 @@ const { User } = require('./models');
 const bcrypt = require('bcrypt');
 const { send } = require('process');
 // const crypto = require('crypto');
+const boardsRouter = require('./routes/boards');
 
 const salt = 12;
 //회원가입 데이터
@@ -91,6 +92,12 @@ app.post('/signUp', async (req, res) => {
       sendData = 'fail';
       res.send(sendData);
     });
+});
+
+app.use('/home', boardsRouter);
+
+app.use((req, res, next) => {
+  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
 });
 
 //라우팅은 리액트가 담당하도록 설계한다.
