@@ -5,7 +5,7 @@ const cors = require('cors');
 const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const { sequelize } = require('./models');
-const { User } = require('./models');
+const { User, Board } = require('./models');
 const bcrypt = require('bcrypt');
 const { send } = require('process');
 // const crypto = require('crypto');
@@ -33,6 +33,14 @@ app.use(cors());
 
 //메인페이지 접속시 build 폴더의 index.html을 보내줘!
 app.get('/', (req, res) => {
+  // try {
+  //   res.sendFile(
+  //     path.join(__dirname, '/variousproj/build/index.html', { users })
+  //   );
+  // } catch (err) {
+  //   console.error(err);
+  //   next(err);
+  // }
   res.sendFile(path.join(__dirname, '/variousproj/build/index.html'));
 });
 

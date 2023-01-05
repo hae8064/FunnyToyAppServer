@@ -26,6 +26,16 @@ db.Board = Board;
 User.init(sequelize);
 Board.init(sequelize);
 
+// User.hasMany(Board, {
+//   foreignKey: 'boarder',
+//   sourceKey: 'iduser',
+// });
+
+// Board.belongsTo(User, {
+//   foreignKey: 'boarder',
+//   targetKey: 'iduser',
+// });
+
 User.associate(db);
 Board.associate(db);
 

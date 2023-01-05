@@ -5,6 +5,13 @@ module.exports = class Board extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        boardId: {
+          type: INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+          allowNull: false,
+          comment: '고유번호 uuid',
+        },
         boardTitle: {
           type: Sequelize.STRING(50),
           allowNull: false,
@@ -28,6 +35,9 @@ module.exports = class Board extends Sequelize.Model {
           defaultValue: Sequelize.NOW,
           allowNull: false,
         },
+        boarder: {
+          type: INTEGER,
+        },
       },
       {
         sequelize,
@@ -45,6 +55,9 @@ module.exports = class Board extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Board.belongsTo(db.User, { foreignKey: 'boarder', targetKey: 'iduser' });
+    db.Board.belongsTo(db.User, {
+      foreignKey: 'boarder',
+      targetKey: 'iduser',
+    });
   }
 };
