@@ -31,6 +31,7 @@ router.post('/create', upload.single('imgFile'), async (req, res, next) => {
     boardLocation: boardData[3],
     boardImg: boardData[4],
   }).then((result) => {
+    res.send(result);
     console.log('저장성공:', result);
   });
 
