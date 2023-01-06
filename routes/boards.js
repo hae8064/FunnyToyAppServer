@@ -20,6 +20,8 @@ const upload = multer({
   limits: { fileSize: 1000000 },
 });
 
+router.get('/');
+
 router.post('/create', upload.single('imgFile'), async (req, res, next) => {
   boardData = req.body.createPostDB;
   console.log('id는?', req.body);
@@ -29,7 +31,7 @@ router.post('/create', upload.single('imgFile'), async (req, res, next) => {
     boardContent: boardData[1],
     boardScore: boardData[2],
     boardLocation: boardData[3],
-    boardImg: boardData[4],
+    boarder: boardData[4],
   }).then((result) => {
     res.send(result);
     console.log('저장성공:', result);

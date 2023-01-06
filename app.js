@@ -53,8 +53,6 @@ app.post('/', async (req, res) => {
     where: { emailuser: clientLogin[0] },
   });
 
-  console.log('userData: ', userDataCheck);
-
   if (userDataCheck === null) {
     sendData = 'fail';
     res.send(sendData);
