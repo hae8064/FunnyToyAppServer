@@ -5,6 +5,7 @@
     "database": "funnytoyapp",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "timezone": "+09:00"
+    "timezone": "Asia/Seoul",
+    "dateStrings": true
   }
 }

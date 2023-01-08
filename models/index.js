@@ -9,7 +9,13 @@ const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  config
+  {
+    host: config.host,
+    dialect: config.dialect,
+    timezone: config.timezone,
+    pool: config.pool,
+  }
+  // config
 );
 
 //db객체에 Sequelize패키지 넣기

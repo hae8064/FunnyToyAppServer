@@ -20,7 +20,14 @@ const upload = multer({
   limits: { fileSize: 1000000 },
 });
 
-router.get('/');
+//로그인 한 user id에 따른 DB 메모 정보 클라이언트로 전송
+router.get('/:id', async (req, res, next) => {
+  const userId = Number(req.params.id.split(':')[1].split('}')[0]);
+
+  const boards = await Board.findAll({ where: { boarder: userId } });
+
+  res.json(boards);
+});
 
 router.post('/create', upload.single('imgFile'), async (req, res, next) => {
   boardData = req.body.createPostDB;
@@ -42,6 +49,25 @@ router.post('/create', upload.single('imgFile'), async (req, res, next) => {
     console.error(err);
     next(err);
   }
+});
+
+//메모 삭제 api
+router.delete('/delete', async (req, res, next) => {
+  console.log(req.body.boardId);
+  for (let id of req.body.boardId) {
+    Board.destroy({
+      where: { boardId: id },
+    })
+      .then((result) => console.log('삭제성공:', result))
+      .catch((err) => console.log(err));
+  }
+  // Board.destroy({
+  //   where: { boardId: req.body.boardId },
+  // })
+  //   .then((result) => console.log('삭제 성공: ', result))
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 });
 
 module.exports = router;

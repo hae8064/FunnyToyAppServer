@@ -31,8 +31,8 @@ module.exports = class Board extends Sequelize.Model {
           type: Sequelize.STRING(500),
         },
         boardCreated: {
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.NOW,
+          type: 'TIMESTAMP',
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
           allowNull: false,
         },
         boarder: {
