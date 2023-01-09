@@ -53,7 +53,6 @@ router.post('/create', upload.single('imgFile'), async (req, res, next) => {
 
 //메모 삭제 api
 router.delete('/delete', async (req, res, next) => {
-  console.log(req.body.boardId);
   for (let id of req.body.boardId) {
     Board.destroy({
       where: { boardId: id },
