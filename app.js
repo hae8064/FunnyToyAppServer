@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const { send } = require('process');
 // const crypto = require('crypto');
 const boardsRouter = require('./routes/boards');
+const boardsDetailRouter = require('./routes/boardsDetail');
 
 const salt = 12;
 //회원가입 데이터
@@ -104,6 +105,7 @@ app.post('/signUp', async (req, res) => {
 });
 
 app.use('/home', boardsRouter);
+app.use('/home/:id/detail', boardsDetailRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
