@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
+app.get('/search/blog', (req, res) => {
   res.send({ title: 'Express 테스트 서버' });
 });
 

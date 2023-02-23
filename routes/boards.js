@@ -26,7 +26,8 @@ router.get('/:id', async (req, res, next) => {
 
   const boards = await Board.findAll({ where: { boarder: userId } });
 
-  res.json(boards);
+  res.send(boards);
+  res.json('hello world!');
 });
 
 router.post('/create', upload.single('imgFile'), async (req, res, next) => {
