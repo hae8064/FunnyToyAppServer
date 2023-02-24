@@ -7,12 +7,13 @@ const bodyParser = require('body-parser');
 const { sequelize } = require('./models');
 const { User, Board } = require('./models');
 const bcrypt = require('bcrypt');
+const logger = require('morgan');
 const { send } = require('process');
 // const crypto = require('crypto');
 const boardsRouter = require('./routes/boards');
 const boardsDetailRouter = require('./routes/boardsDetail');
 const request = require('request');
-
+require('dotenv').config();
 const salt = 12;
 //회원가입 데이터
 let userDatas = [];
@@ -26,14 +27,14 @@ sequelize
   .catch((err) => {
     console.error(err);
   });
-
-app.use(express.json());
-
+app.use(logger());
 app.use(express.static(path.join(__dirname, '/variousproj/build')));
 
 app.use(cors());
 // app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 //메인페이지 접속시 build 폴더의 index.html을 보내줘!
 app.get('/', (req, res) => {
   // try {
@@ -107,16 +108,19 @@ app.post('/signUp', async (req, res) => {
 });
 
 app.get('/map/:id', async (req, res) => {
+  const { locationData } = req.query;
   let options = {
     // url: 'https://openapi.naver.com/v1/search/local?query=목동 음식점&display=5',
     url: `https://openapi.naver.com/v1/search/local?query='
-      ${encodeURI('목동음식점')}&display=5`,
+      ${encodeURI(locationData.locationValue + '음식점')}&display=5`,
+
     headers: {
-      'Content-Type': 'application/json',
-      'X-Naver-Client-Id': 'FZnbYScg8qKDrpS31uw2',
-      'X-Naver-Client-Secret': 'AAqHSHczVc',
+      // 'Content-Type': 'application/json',
+      'X-Naver-Client-Id': process.env.REACT_APP_CLID,
+      'X-Naver-Client-Secret': process.env.REACT_APP_ClSECRET,
     },
   };
+  console.log(locationData);
   request.get(options, (response, body) => {
     res.json(body);
   });
