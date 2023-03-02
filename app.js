@@ -13,6 +13,8 @@ const { send } = require('process');
 const boardsRouter = require('./routes/boards');
 const boardsDetailRouter = require('./routes/boardsDetail');
 const request = require('request');
+const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 const salt = 12;
 //회원가입 데이터
@@ -37,16 +39,39 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //메인페이지 접속시 build 폴더의 index.html을 보내줘!
 app.get('/', (req, res) => {
-  // try {
-  //   res.sendFile(
-  //     path.join(__dirname, '/variousproj/build/index.html', { users })
-  //   );
-  // } catch (err) {
-  //   console.error(err);
-  //   next(err);
-  // }
   res.sendFile(path.join(__dirname, '/variousproj/build/index.html'));
 });
+
+// app.post('/', async (req, res) => {
+//   let sendData = '';
+//   const clientLogin = req.body.loginDatas;
+//   // console.log(clientLogin);
+
+//   const userDataCheck = await User.findOne({
+//     where: { emailuser: clientLogin[0] },
+//   });
+
+//   if (userDataCheck === null) {
+//     sendData = 'fail';
+//     res.send(sendData);
+//   } else {
+//     const match = await bcrypt.compare(
+//       clientLogin[1],
+//       userDataCheck.passworduser
+//     );
+
+//     if (match === true) {
+//       sendData = `success`;
+//       // res.send(sendData);
+//       res.json({ data: userDataCheck });
+//     } else if (match === false) {
+//       sendData = 'fail';
+//       res.send(sendData);
+//     }
+//   }
+//   // 이메일이  없으면 null값으로 나온다.
+//   // console.log('조회된 데이터는 ?', userDataCheck);
+// });
 
 app.post('/', async (req, res) => {
   let sendData = '';
