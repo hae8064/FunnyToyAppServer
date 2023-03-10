@@ -23,11 +23,17 @@ const upload = multer({
 //로그인 한 user id에 따른 DB 메모 정보 클라이언트로 전송
 router.get('/:id', async (req, res, next) => {
   const userId = Number(req.params.id.split(':')[1].split('}')[0]);
-
   const boards = await Board.findAll({ where: { boarder: userId } });
 
-  res.send(boards);
-  res.json('hello world!');
+  if(boards){
+    return res.send(boards);
+  }else{
+    res.send('No Data');
+  }
+
+
+  // res.send(boards);
+  // res.json('hello world!');
 });
 
 router.post('/create', upload.single('imgFile'), async (req, res, next) => {

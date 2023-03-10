@@ -36,6 +36,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 //메인페이지 접속시 build 폴더의 index.html을 보내줘!
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/variousproj/build/index.html'));
@@ -71,7 +72,6 @@ app.post('/', async (req, res) => {
   // 이메일이  없으면 null값으로 나온다.
   // console.log('조회된 데이터는 ?', userDataCheck);
 });
-
 
 app.post('/signUp', async (req, res) => {
   let sendData = '';
@@ -127,11 +127,11 @@ app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
 });
 
+http.listen(8080, () => {
+  console.log('Listening on 8080');
+});
+
 //라우팅은 리액트가 담당하도록 설계한다.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/variousproj/build/index.html'));
-});
-
-http.listen(8080, () => {
-  console.log('Listening on 8080');
 });
